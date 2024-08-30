@@ -22,7 +22,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="w-full lg:grid h-screen lg:grid-cols-2 pt-[80px] lg:pt-2">
+    <div className="w-full lg:grid h-screen lg:grid-cols-2 ">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
@@ -61,8 +61,8 @@ function LoginPage() {
         <Image
           src="/jit_header.png"
           alt="Image"
-          width={80}
-          height={80}
+          width={100}
+          height={100}
           className=" object-cover "
         />
       </div>
