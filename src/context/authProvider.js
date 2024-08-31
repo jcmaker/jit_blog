@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import nookies from "nookies";
-import { auth } from "../../../fbManager";
+import { auth } from "fbManager";
 
 const AuthContext = createContext({
   user: null,
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const refreshToken = setInterval(async () => {
-      const currentUser = auth.currentUser?.currentUser;
+      const currentUser = auth.currentUser;
       if (currentUser) await currentUser.getIdToken(true);
     }, 10 * 60 * 1000);
 

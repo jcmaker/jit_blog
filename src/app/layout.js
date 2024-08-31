@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/components/context/authProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SideNav from "@/components/sideNav";
+import { AuthProvider } from "@/context/authProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,14 +14,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} flex justify-stretch dark:bg-[#10151D]`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <SideNav />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
