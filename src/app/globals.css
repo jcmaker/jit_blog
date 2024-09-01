@@ -65,6 +65,13 @@
   }
 }
 
+blockquote {
+  padding: 0.5em 1em;
+  margin: 0.5em 0;
+  border-left: 5px solid #ccc;
+  background-color: var(--card);
+}
+
 @layer base {
   * {
     @apply border-border;

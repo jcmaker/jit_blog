@@ -1,12 +1,27 @@
 "use client";
 import { AdminNav } from "@/components/adminNav";
 import { useAuth } from "@/context/authProvider";
-import { redirect, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 function Adminpage() {
   const { user } = useAuth();
   const router = useRouter(); // useRouter 훅 사용
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("/api/get-content");
+        setPosts(response.data); // 데이터를 상태로 설정
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   if (!user?.uid || user?.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
     return (
@@ -31,6 +46,15 @@ function Adminpage() {
         <AdminNav />
       </div>
       {/* 어드민 전용 콘텐츠 */}
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <div key={post.id} className="post">
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          </div>
+        ))
+      ) : (
+        <p>No posts found</p>
+      )}
     </main>
   );
 }
