@@ -16,7 +16,7 @@ import { auth } from "fbManager";
 function SideNav() {
   const { user } = useAuth();
   return (
-    <aside className=" inset-y-0 z-20 flex w-20 flex-col items-center border-r dark:bg-[#151F2C] p-2">
+    <aside className="inset-y-0 z-20 flex w-20 flex-col items-center border-r dark:bg-[#151F2C] p-2">
       <div className="flex shrink-0 items-center justify-center">
         <Link
           href="/"
@@ -35,7 +35,7 @@ function SideNav() {
       <nav className="mt-8 flex flex-1 flex-col space-y-4">
         <Link
           href="/"
-          className="flex flex-col justify-center items-center rounded-md px-3 py-2 text-sm text-gray-300 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
+          className="flex flex-col justify-center items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
           prefetch={true}
         >
           <HomeIcon className="h-5 w-5" />
@@ -44,7 +44,7 @@ function SideNav() {
         {user ? (
           <Link
             href="#"
-            className="flex flex-col items-center rounded-md px-3 py-2 text-sm text-gray-300 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
             prefetch={true}
             onClick={() => {
               auth.signOut();
@@ -57,7 +57,7 @@ function SideNav() {
         ) : (
           <Link
             href="/login"
-            className="flex flex-col items-center rounded-md px-3 py-2 text-sm text-gray-300 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
             prefetch={true}
           >
             <DoorOpenIcon className=" h-5 w-5" />

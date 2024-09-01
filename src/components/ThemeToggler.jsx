@@ -13,7 +13,7 @@ export function ThemeToggle() {
       href="#"
       variant="outline"
       size="icon"
-      className="flex flex-col items-center rounded-md px-3 py-2 text-sm text-gray-300 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
+      className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
     >
       <SunIcon
         className="h-5 w-5rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"

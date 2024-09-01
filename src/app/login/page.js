@@ -8,9 +8,15 @@ import {
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChromeIcon, FacebookIcon, GithubIcon } from "lucide-react";
+import { useAuth } from "@/context/authProvider";
 
 function LoginPage() {
+  const { user } = useAuth();
   const router = useRouter(); // useRouter 훅 사용
+
+  if (user) {
+    router.push("/");
+  }
 
   const handleLogin = async (loginMethod) => {
     try {
