@@ -2,6 +2,7 @@
 import { AdminNav } from "@/components/adminNav";
 import { useAuth } from "@/context/authProvider";
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -22,6 +23,8 @@ function Adminpage() {
 
     fetchPosts();
   }, []);
+
+  console.log(posts);
 
   if (!user?.uid || user?.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
     return (
@@ -49,7 +52,14 @@ function Adminpage() {
       {posts.length > 0 ? (
         posts.map((post) => (
           <div key={post.id} className="post">
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            {post.mainTitle}
+            <Image
+              width={500}
+              height={300}
+              src={post.thumbnail}
+              alt="thumbnail"
+            />
+            {/* <div dangerouslySetInnerHTML={{ __html: post.content }} /> */}
           </div>
         ))
       ) : (

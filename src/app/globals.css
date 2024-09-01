@@ -91,6 +91,11 @@ blockquote {
 
 body {
   --dot-size: 1.25px;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 @media (min-width: 640px) {

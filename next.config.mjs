@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["public"],
+    domains: ["public", "firebasestorage.googleapis.com"],
   },
   async headers() {
     return [

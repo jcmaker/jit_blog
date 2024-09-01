@@ -3,9 +3,11 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export async function POST(req) {
   try {
-    const { content } = await req.json(); // 요청에서 JSON 데이터를 추출
+    const { mainTitle, thumbnail, content } = await req.json(); // 요청에서 JSON 데이터를 추출
 
     const docRef = await addDoc(collection(db, "posts"), {
+      mainTitle,
+      thumbnail,
       content,
       createdAt: serverTimestamp(),
     });

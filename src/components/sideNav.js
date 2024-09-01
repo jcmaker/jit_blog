@@ -16,11 +16,11 @@ import { auth } from "fbManager";
 function SideNav() {
   const { user } = useAuth();
   return (
-    <aside className="inset-y-0 z-20 flex w-20 flex-col items-center border-r dark:bg-[#151F2C] p-2">
+    <aside className="inset-y-0 z-20 flex justify-between items-center md:flex-col md:w-20 h-16 md:h-full w-full border-r dark:bg-[#151F2C] p-2">
       <div className="flex shrink-0 items-center justify-center">
         <Link
           href="/"
-          className="flex items-center justify-center gap-2 pt-5"
+          className="flex items-center justify-center gap-2 md:pt-5"
           prefetch={true}
         >
           <Image
@@ -32,7 +32,7 @@ function SideNav() {
           />
         </Link>
       </div>
-      <nav className="mt-8 flex flex-1 flex-col space-y-4">
+      <nav className="mt-8 md:flex flex-1 flex-col space-y-4 hidden">
         <Link
           href="/"
           className="flex flex-col justify-center items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -67,7 +67,7 @@ function SideNav() {
         <ThemeToggle />
       </nav>
       {/* profile img at the bottom */}
-      <Avatar className="flex items-center justify-center mb-4">
+      <Avatar className="flex items-center justify-center md:mb-4">
         <AvatarImage src={user?.photoURL} />
         <AvatarFallback>
           <UserCircle2Icon className="text-gray-500 font-extralight" />

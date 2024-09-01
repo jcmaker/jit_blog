@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex justify-stretch dark:bg-[#10151D]`}
+        className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen`}
       >
         <ThemeProvider
           attribute="class"
