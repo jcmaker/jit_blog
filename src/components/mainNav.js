@@ -1,46 +1,44 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { FileTextIcon, HashIcon, NotebookPenIcon } from "lucide-react";
+import { CalendarDaysIcon, NotebookPenIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function AdminNav({ className, ...props }) {
+export function MainNav({ className, ...props }) {
   const pathname = usePathname();
 
   const routes = [
     {
-      href: `/admin`,
+      href: `/`,
       label: (
-        <div className="flex items-center rounded-full px-2 py-2">
-          <FileTextIcon className="mr-2 h-5 w-5" /> ARTICLES
-        </div>
+        <div className="flex items-center rounded-full px-2 py-2">ALL</div>
       ),
-      active: pathname === `/admin`,
+      active: pathname === `/`,
     },
     {
-      href: `/admin/post`,
+      href: `/posts/study`,
       label: (
         <div className="flex items-center rounded-full px-2 py-2">
-          <NotebookPenIcon className="mr-2 h-5 w-5" /> POST
+          <NotebookPenIcon className="mr-2 h-5 w-5" /> STUDY
         </div>
       ),
-      active: pathname === `/admin/post`,
+      active: pathname === `/posts/study`,
     },
     {
-      href: `/admin/tags`,
+      href: `/posts/monthly`,
       label: (
         <div className="flex items-center rounded-full px-2 py-2">
-          <HashIcon className="mr-2 h-5 w-5" /> TAGS
+          <CalendarDaysIcon className="mr-2 h-5 w-5" /> MONTHLY
         </div>
       ),
-      active: pathname === `/admin/tags`,
+      active: pathname === `/posts/monthly`,
     },
   ];
   return (
     <nav
       className={cn(
-        "flex items-center space-x-4 lg:space-x-6 dark:bg-[#1a1a2e] bg-slate-200 p-2  rounded-full border",
+        "flex items-center space-x-4 lg:space-x-6 dark:bg-[#1a1a2e] bg-slate-200 p-2 rounded-full border",
         className
       )}
     >
@@ -49,9 +47,9 @@ export function AdminNav({ className, ...props }) {
           key={route.href}
           href={route.href}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-[#FF9101]",
+            "text-sm font-medium transition-colors hover:text-primary",
             route.active
-              ? "text-white bg-[#FFC401] rounded-full"
+              ? "text-white bg-primary/80 rounded-full "
               : "text-muted-foreground"
           )}
         >

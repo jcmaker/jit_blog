@@ -89,6 +89,11 @@ blockquote {
   }
 }
 
+* {
+  font-family: JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, Liberation Mono, Courier New, monospace;
+}
+
 body {
   --dot-size: 1.25px;
   -ms-overflow-style: none;
@@ -96,6 +101,61 @@ body {
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+/* .prose h1,
+.prose h2,
+.prose p,
+.prose span {
+  font-family: "Google Sans Text", ui-sans-serif, system-ui, -apple-system,
+    "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+} */
+
+.ql-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #0f172a;
+}
+
+.prose img {
+  border-radius: 12px;
+}
+
+.prose h1 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 36px;
+  color: rgb(209, 213, 219);
+  font-family: "Google Sans Display", ui-sans-serif, system-ui, -apple-system,
+    "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+.prose h2 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  color: rgb(209, 213, 219);
+  font-family: "Google Sans Display", ui-sans-serif, system-ui, -apple-system,
+    "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+.prose p,
+.prose span {
+  font-weight: 400;
+  font-size: 20px;
+  list-style: 32px;
+  color: rgb(191, 199, 210);
+  font-family: "Google Sans Text", ui-sans-serif, system-ui, -apple-system,
+    "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
 }
 
 @media (min-width: 640px) {

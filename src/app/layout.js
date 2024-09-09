@@ -14,21 +14,21 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
+      <AuthProvider>
+        <body
+          className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen`}
         >
-          <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
             <SideNav />
-            <main className="flex-1">{children}</main>
-          </AuthProvider>
-        </ThemeProvider>
-      </body>
+            <main className="flex-1 md:ml-8">{children}</main>
+          </ThemeProvider>
+        </body>
+      </AuthProvider>
     </html>
   );
 }
