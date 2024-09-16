@@ -4,7 +4,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export async function POST(req) {
   try {
-    const { mainTitle, thumbnail, content, tags } = await req.json();
+    const { mainTitle, thumbnail, content, tags, checkPrivate } =
+      await req.json();
 
     // 1. Firebase Storage에 content 저장
     const contentBlob = new Blob([content], {
@@ -20,6 +21,7 @@ export async function POST(req) {
       thumbnail,
       contentURL, // 대용량 content 대신 URL만 저장
       tags,
+      checkPrivate,
       createdAt: serverTimestamp(),
     });
 

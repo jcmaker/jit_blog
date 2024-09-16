@@ -33,7 +33,7 @@ function ArticlePage() {
     }
   }, [articleId]);
 
-  console.table(post);
+  console.log(articleId);
 
   return (
     <main className="flex flex-1 min-h-screen flex-col items-center p-1 pt-8">
@@ -41,12 +41,12 @@ function ArticlePage() {
       <div className="flex justify-between items-center mb-6 w-full max-w-3xl ">
         <Link
           href="/"
-          className="mb-4 text-gray-400 flex items-center bg-[#0F151D] p-4 rounded-full py-2 border"
+          className="mb-4 dark:text-gray-400 text-slate-600 flex items-center dark:bg-[#0F151D] bg-slate-200 p-4 rounded-full py-2 border"
         >
           <ArrowLeft className="mr-2" /> Back to Home
         </Link>
       </div>
-      <div className="rounded-xl w-full max-w-3xl bg-[#0F151D] border">
+      <div className="rounded-xl w-full max-w-3xl dark:bg-[#0F151D] bg-slate-200 border">
         {post ? (
           <>
             <div className="relative w-full md:h-96 h-44 mb-2">
@@ -62,12 +62,12 @@ function ArticlePage() {
             </div>
 
             <div className="p-4 md:p-8">
-              <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">
+              <h1 className="text-2xl md:text-4xl font-bold dark:text-white mb-2">
                 {post.mainTitle}
               </h1>
 
               <div className="flex items-center space-x-4 mb-12">
-                <p className="text-sm text-gray-400">
+                <p className="text-sm dark:text-gray-400">
                   {post.createdAt
                     ? new Date(
                         post.createdAt.seconds * 1000
@@ -78,7 +78,7 @@ function ArticlePage() {
                       })
                     : "Unknown date"}
                 </p>
-                <p className="text-sm text-gray-400">by Justin Cho</p>
+                <p className="text-sm dark:text-gray-400">by Justin Cho</p>
               </div>
 
               <div className="prose">

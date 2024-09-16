@@ -12,6 +12,7 @@ import { Filter } from "lucide-react";
 import { db } from "fbManager";
 import { collection, getDocs } from "firebase/firestore";
 import { Badge } from "./ui/badge";
+import Link from "next/link";
 
 function TagSearch() {
   const [tags, setTags] = useState([]); // Firestore에서 불러온 태그 목록
@@ -38,7 +39,7 @@ function TagSearch() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-none border-none md:bg-[#11161e] md:w-14 h-14 rounded-xl md:border flex items-center justify-center">
+      <DropdownMenuTrigger className="bg-none border-none md:w-14 h-14 rounded-xl md:border flex items-center justify-center">
         <Filter className="text-slate-400" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -46,7 +47,9 @@ function TagSearch() {
         <DropdownMenuSeparator />
         {tags.map((tag) => (
           <DropdownMenuItem key={tag.id}>
-            <Badge>#{tag.name}</Badge>
+            <Link href={`/posts/${tag.name}`}>
+              <Badge>#{tag.name}</Badge>
+            </Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

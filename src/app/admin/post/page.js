@@ -13,12 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import LZString from "lz-string";
+import { Label } from "@/components/ui/label";
+import { redirect } from "next/navigation";
+
+// Quill에서 이미지 핸들러 커스터마이즈
 
 function Postpage() {
   const [value, setValue] = useState("");
   const [thumbnailURL, setThumbnailURL] = useState("");
   const [mainTitle, setMainTitle] = useState("");
   const [selectedTags, setSelectedTags] = useState([]); // 선택된 태그 상태
+  const [checkPrivate, setCheckPrivate] = useState(false);
   const [tags, setTags] = useState([]); // Firestore에서 불러온 태그 목록
   const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태
   const [totalBytes, setTotalBytes] = useState(0); // 이미지 크기를 저장할 상태
@@ -84,10 +89,12 @@ function Postpage() {
           thumbnail: thumbnailURL,
           content: compressedContent, // content 데이터 전송
           tags: selectedTags,
+          checkPrivate,
         });
 
         if (response.status === 200) {
           alert("Content saved successfully!");
+          redirect("/");
         }
       } catch (error) {
         console.error("Error saving content:", error);
@@ -151,13 +158,21 @@ function Postpage() {
     }
   };
 
+  const handleCheckPrivate = () => {
+    if (checkPrivate == true) {
+      setCheckPrivate(false);
+    } else {
+      setCheckPrivate(true);
+    }
+  };
+
   return (
     <main className="flex flex-1 min-h-screen  flex-col items-center p-4 pt-8">
       <div className="shine -z-10 absolute inset-0" role="presentation"></div>
       <div className="mb-16">
         <AdminNav />
       </div>
-      <form onSubmit={saveContent}>
+      <form type="submit" onSubmit={saveContent}>
         <Input
           type="text"
           placeholder="Main Title"
@@ -172,6 +187,25 @@ function Postpage() {
           onChange={handleThumbnailChange}
           required
         />
+        <div className="items-top flex space-x-2 my-5">
+          <Input
+            type="checkbox"
+            id="privatePost"
+            onChange={handleCheckPrivate}
+            className="w-5 flex items-start justify-start"
+          />
+          <div className="grid gap-1.5 leading-none">
+            <Label
+              htmlFor="privatePost"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Private Post
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              Make your post Private
+            </p>
+          </div>
+        </div>
         <div className="mb-5">
           {tags.map((tag) => (
             <Badge
@@ -198,7 +232,7 @@ function Postpage() {
           />
         )}
         <ReactQuill
-          ref={quillRef} // ReactQuill의 ref를 설정
+          ref={quillRef}
           value={value}
           onChange={handleChange}
           modules={modules}

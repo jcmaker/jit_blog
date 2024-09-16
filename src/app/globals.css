@@ -62,6 +62,7 @@
     --dot-color: #2e3c51;
     --shine-color: #131f33;
     --shine-color2: #131e3100;
+    --prose-textp: #c0c7d2;
   }
 }
 
@@ -97,6 +98,7 @@ blockquote {
 body {
   --dot-size: 1.25px;
   -ms-overflow-style: none;
+  height: 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -128,7 +130,7 @@ body {
   font-weight: 700;
   font-size: 30px;
   line-height: 36px;
-  color: rgb(209, 213, 219);
+  /* color: rgb(209, 213, 219); */
   font-family: "Google Sans Display", ui-sans-serif, system-ui, -apple-system,
     "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
@@ -139,7 +141,7 @@ body {
   font-weight: 700;
   font-size: 20px;
   line-height: 28px;
-  color: rgb(209, 213, 219);
+  /* color: rgb(209, 213, 219); */
   font-family: "Google Sans Display", ui-sans-serif, system-ui, -apple-system,
     "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
@@ -151,7 +153,7 @@ body {
   font-weight: 400;
   font-size: 20px;
   list-style: 32px;
-  color: rgb(191, 199, 210);
+  color: var(--prose-textp);
   font-family: "Google Sans Text", ui-sans-serif, system-ui, -apple-system,
     "system-ui", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
