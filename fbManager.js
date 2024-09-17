@@ -2,6 +2,8 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+// Import analytics only if needed
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -13,20 +15,17 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
-if (!firebase.apps.length) {
-  // Firebase 앱 초기화
-  firebase.initializeApp(firebaseConfig);
+// Initialize Firebase app only if it hasn't been initialized already
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-  // Firebase 애널리틱스 초기화 (필요한 경우에만 사용)
-}
-
-if (typeof window !== "undefined") {
-  firebase.analytics();
-}
-
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+// Initialize Firebase services
 const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
+
+// Optionally, initialize Firebase Analytics in the browser
+if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_MEASUREMENT_ID) {
+  getAnalytics(app);
+}
 
 export { db, auth, storage };
