@@ -1,4 +1,4 @@
-import { db } from "fbManager";
+import { db } from "../../../../../fbManager";
 import { doc, deleteDoc } from "firebase/firestore";
 
 export async function DELETE(req, { params }) {
