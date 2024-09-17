@@ -55,7 +55,7 @@ function SideNav() {
             prefetch={true}
             onClick={() => {
               auth.signOut();
-              window.location.reload();
+              router.push();
             }}
           >
             <DoorOpenIcon className=" h-5 w-5" />
