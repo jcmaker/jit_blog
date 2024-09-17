@@ -7,10 +7,12 @@ export async function POST(req) {
     const { mainTitle, thumbnail, content, tags, checkPrivate } =
       await req.json();
 
-    // 1. Firebase Storage에 content 저장
+    // Create a new blob for the content text
     const contentBlob = new Blob([content], {
       type: "text/plain;charset=utf-8",
     });
+
+    // 1. Firebase Storage에 content 저장
     const storageRef = ref(storage, `content/${Date.now()}_content.txt`);
     await uploadBytes(storageRef, contentBlob);
     const contentURL = await getDownloadURL(storageRef);
@@ -22,7 +24,7 @@ export async function POST(req) {
       contentURL, // 대용량 content 대신 URL만 저장
       tags,
       checkPrivate,
-      createdAt: serverTimestamp(),
+      createdAt: serverTimestamp(), // Add server timestamp
     });
 
     return new Response(

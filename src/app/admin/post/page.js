@@ -14,9 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import LZString from "lz-string";
 import { Label } from "@/components/ui/label";
-import { redirect } from "next/navigation";
-
-// Quill에서 이미지 핸들러 커스터마이즈
+import { useRouter } from "next/navigation"; // Import useRouter for client-side navigation
 
 function Postpage() {
   const [value, setValue] = useState("");
@@ -31,6 +29,7 @@ function Postpage() {
   const quillRef = useRef(null); // ReactQuill 인스턴스를 참조하기 위한 ref
   const auth = getAuth();
   const user = auth.currentUser;
+  const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
     fetchTags();
@@ -94,7 +93,7 @@ function Postpage() {
 
         if (response.status === 200) {
           alert("Content saved successfully!");
-          redirect("/");
+          router.push("/"); // Use router.push for client-side navigation
         }
       } catch (error) {
         console.error("Error saving content:", error);
@@ -159,11 +158,7 @@ function Postpage() {
   };
 
   const handleCheckPrivate = () => {
-    if (checkPrivate == true) {
-      setCheckPrivate(false);
-    } else {
-      setCheckPrivate(true);
-    }
+    setCheckPrivate(!checkPrivate);
   };
 
   return (
