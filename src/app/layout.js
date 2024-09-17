@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <AuthProvider>
         <body
-          className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen`}
+          className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen `}
         >
           <ThemeProvider
             attribute="class"
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             <SideNav />
-            <main className="flex-1 md:ml-8">{children}</main>
+            <main className="flex-1 md:ml-10">{children}</main>
           </ThemeProvider>
         </body>
       </AuthProvider>

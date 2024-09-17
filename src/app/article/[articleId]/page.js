@@ -5,10 +5,12 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton"; // Import Shadcn UI Skeleton component
 
 function ArticlePage() {
   const { articleId } = useParams();
   const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
 
   // get-content API에서 데이터를 가져오는 함수
   useEffect(() => {
@@ -23,8 +25,10 @@ function ArticlePage() {
         } else {
           console.log("No such post!");
         }
+        setLoading(false); // Stop loading after fetching
       } catch (error) {
         console.error("Error fetching post:", error);
+        setLoading(false); // Stop loading even if there's an error
       }
     };
 
@@ -32,8 +36,6 @@ function ArticlePage() {
       fetchPost();
     }
   }, [articleId]);
-
-  console.log(articleId);
 
   return (
     <main className="flex flex-1 min-h-screen flex-col items-center p-1 pt-8">
@@ -47,17 +49,30 @@ function ArticlePage() {
         </Link>
       </div>
       <div className="rounded-xl w-full max-w-3xl dark:bg-[#0F151D] bg-slate-200 border">
-        {post ? (
+        {loading ? (
+          // Display skeleton while loading
+          <div className="p-4 md:p-8">
+            <Skeleton className="h-72 w-full mb-4 rounded-xl" />{" "}
+            {/* Image skeleton */}
+            <Skeleton className="h-8 w-3/4 mb-2" /> {/* Title skeleton */}
+            <Skeleton className="h-4 w-1/4 mb-6" /> {/* Date skeleton */}
+            <Skeleton className="h-5 w-full mb-2" /> {/* Content skeleton */}
+            <Skeleton className="h-5 w-full mb-2" />
+            <Skeleton className="h-5 w-full mb-2" />
+            <Skeleton className="h-5 w-3/4 mb-2" />
+            <Skeleton className="h-5 w-full mb-2" />
+          </div>
+        ) : post ? (
           <>
             <div className="relative w-full md:h-96 h-44 mb-2">
               <Image
                 src={post.thumbnail}
                 alt="Thumbnail"
-                layout="fill" // 부모 요소를 가득 채우도록 설정
-                objectFit="cover" // 이미지가 부모 영역을 채우며 비율을 유지
-                priority={true} // LCP(Largest Contentful Paint) 최적화를 위해 우선 로드
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // 화면 크기에 따라 다른 크기로 로드
-                className="rounded-xl" // 이미지의 모서리를 둥글게 처리
+                layout="fill"
+                objectFit="cover"
+                priority={true}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="rounded-xl"
               />
             </div>
 
@@ -91,7 +106,7 @@ function ArticlePage() {
             </div>
           </>
         ) : (
-          <p>Loading...</p>
+          <p>No post found</p>
         )}
       </div>
     </main>

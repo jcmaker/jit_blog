@@ -5,6 +5,8 @@ import { MainNav } from "@/components/mainNav";
 import TagSearch from "@/components/tagSearch";
 import PostCard from "@/components/PostCard";
 import { useParams } from "next/navigation";
+import { TagIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 function PostsByTagPage() {
   const { tagId } = useParams();
@@ -37,7 +39,18 @@ function PostsByTagPage() {
         <MainNav />
         <TagSearch />
       </div>
-      <h1 className="text-3xl font-bold mb-8">Posts tagged with #{tagId}</h1>
+      {/* <h1 className="text-3xl font-bold mb-8">Posts tagged with #{tagId}</h1> */}
+      <div className="text-card-foreground rounded-lg shadow-lg mb-8 w-full max-w-3xl">
+        <div className="flex items-center space-x-2">
+          <TagIcon className="w-5 h-5 text-primary" />
+          <h1 className="text-lg">
+            Exploring <Badge className="hover:text-slate-200">#{tagId}</Badge>
+          </h1>
+        </div>
+        <p className="mt-2 text-muted-foreground text-sm">
+          Discover posts related to this tag
+        </p>
+      </div>
       {posts.length > 0 ? (
         posts.map((post) => <PostCard key={post.id} post={post} />)
       ) : (
