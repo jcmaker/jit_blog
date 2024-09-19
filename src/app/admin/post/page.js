@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { db, storage } from "fbManager";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase Storage에서 제공하는 함수들
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   collection,
   getDocs,
   addDoc,
   serverTimestamp,
-} from "firebase/firestore"; // Firestore methods
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { AdminNav } from "@/components/adminNav";
 import Image from "next/image";
@@ -18,22 +18,32 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import LZString from "lz-string";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation"; // Import useRouter for client-side navigation
+import { useRouter } from "next/navigation";
 
 function Postpage() {
   const [value, setValue] = useState("");
   const [thumbnailURL, setThumbnailURL] = useState("");
   const [mainTitle, setMainTitle] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]); // 선택된 태그 상태
+  const [selectedTags, setSelectedTags] = useState([]);
   const [checkPrivate, setCheckPrivate] = useState(false);
-  const [tags, setTags] = useState([]); // Firestore에서 불러온 태그 목록
-  const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태
-  const [totalBytes, setTotalBytes] = useState(0); // 이미지 크기를 저장할 상태
-  const [charCount, setCharCount] = useState(0); // 글자 수 저장 상태
-  const quillRef = useRef(null); // ReactQuill 인스턴스를 참조하기 위한 ref
-  const router = useRouter(); // Initialize useRouter
+  const [tags, setTags] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [totalBytes, setTotalBytes] = useState(0);
+  const [charCount, setCharCount] = useState(0);
+  const quillRef = useRef(null);
+  const router = useRouter();
   const auth = getAuth();
-  const user = auth.currentUser;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      if (!user || user.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
+        router.push("/");
+      }
+    });
+    return () => unsubscribe();
+  }, [auth, router]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -41,13 +51,6 @@ function Postpage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (!user?.uid || user?.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
-      router.push("/"); // Make sure this is only client-side
-    }
-  }, [router, user]);
-
-  // Firestore에서 태그 목록 불러오기
   const fetchTags = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "tags"));
@@ -61,11 +64,10 @@ function Postpage() {
     }
   };
 
-  // 이미지 업로드 핸들러
   const handleThumbnailChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const fileSize = file.size; // 파일 크기 (바이트 단위)
+      const fileSize = file.size;
       setTotalBytes((prevTotal) => prevTotal + fileSize);
       const storageRef = ref(storage, `thumbnails/${file.name}`);
       await uploadBytes(storageRef, file);
@@ -74,11 +76,9 @@ function Postpage() {
     }
   };
 
-  // Firebase Firestore에 데이터 저장
   const saveContent = async (e) => {
-    e.preventDefault(); // 폼 제출 시 페이지 새로고침 방지
+    e.preventDefault();
 
-    // 제목 또는 내용이 비어 있으면 제출을 막고 에러 메시지 표시
     if (!mainTitle.trim()) {
       setErrorMessage("Main title is required");
       return;
@@ -90,35 +90,31 @@ function Postpage() {
       return;
     }
 
-    setErrorMessage(""); // 모든 조건이 충족되면 에러 메시지를 지움
+    setErrorMessage("");
 
-    // 1. Compress content using LZString
     const compressedContent = LZString.compressToEncodedURIComponent(value);
 
-    // 2. Create a Blob for compressed content
     const contentBlob = new Blob([compressedContent], {
       type: "text/plain;charset=utf-8",
     });
 
     if (user) {
       try {
-        // 3. Upload content to Firebase Storage
         const storageRef = ref(storage, `content/${Date.now()}_content.txt`);
         await uploadBytes(storageRef, contentBlob);
-        const contentURL = await getDownloadURL(storageRef); // URL for content file in storage
+        const contentURL = await getDownloadURL(storageRef);
 
-        // 4. Save post metadata and content URL to Firestore
         await addDoc(collection(db, "posts"), {
           mainTitle,
           thumbnail: thumbnailURL,
-          contentURL, // Store URL to compressed content
+          contentURL,
           tags: selectedTags,
           checkPrivate,
-          createdAt: serverTimestamp(), // Timestamp for creation date
+          createdAt: serverTimestamp(),
         });
 
         alert("Content saved successfully!");
-        router.push("/"); // Navigate to home after saving
+        router.push("/");
       } catch (error) {
         console.error("Error saving content:", error);
       }
@@ -139,7 +135,7 @@ function Postpage() {
         ["link", "image", "video"],
         [{ color: [] }, { background: [] }],
         [{ align: [] }],
-        ["clean"], // Remove formatting button
+        ["clean"],
       ],
     },
   };
@@ -175,9 +171,9 @@ function Postpage() {
 
   const handleTagSelect = (tag) => {
     if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter((t) => t !== tag)); // 선택 해제
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
     } else {
-      setSelectedTags([...selectedTags, tag]); // 선택
+      setSelectedTags([...selectedTags, tag]);
     }
   };
 
