@@ -35,7 +35,8 @@ function ArticlePage() {
     if (articleId) {
       fetchPost();
     }
-  }, [articleId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="flex flex-1 min-h-screen flex-col items-center p-1 pt-8">

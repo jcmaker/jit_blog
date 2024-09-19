@@ -1,11 +1,11 @@
 "use client";
 import { MainNav } from "@/components/mainNav";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import TagSearch from "@/components/tagSearch";
 import PostCard from "@/components/PostCard";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { db } from "fbManager"; // Assuming you have your Firebase Firestore instance set up here
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
 export default function Home() {
   const [posts, setPosts] = useState([]); // All posts
@@ -17,11 +17,21 @@ export default function Home() {
     const fetchPosts = async () => {
       try {
         setIsLoadingInitial(true);
-        const response = await axios.get("/api/get-content");
-        setPosts(response.data);
+
+        // Query Firestore directly to get posts in descending order of creation date
+        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        // Map through the Firestore documents to extract data
+        const postsArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setPosts(postsArray);
         setIsLoadingInitial(false);
       } catch (error) {
-        console.error("Error fetching content:", error);
+        console.error("Error fetching content from Firebase:", error);
         setIsLoadingInitial(false);
       }
     };
@@ -84,8 +94,6 @@ export default function Home() {
           )}
         </>
       )}
-
-      {/* <Footer className="fixed bottom-0" /> */}
     </main>
   );
 }

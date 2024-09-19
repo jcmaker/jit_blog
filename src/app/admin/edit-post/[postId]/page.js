@@ -37,7 +37,8 @@ function EditPostPage() {
     if (postId) {
       fetchPost();
     }
-  }, [postId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle form submission to update the post
   const handleUpdatePost = async (e) => {
