@@ -1,8 +1,6 @@
 "use client";
 import { AdminNav } from "@/components/adminNav";
 import { useAuth } from "@/context/authProvider";
-import axios from "axios";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {

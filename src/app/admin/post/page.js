@@ -11,14 +11,20 @@ import {
 import { getAuth } from "firebase/auth";
 import { AdminNav } from "@/components/adminNav";
 import Image from "next/image";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import LZString from "lz-string";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+// Dynamically import ReactQuill
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+// Import styles for ReactQuill after dynamic import
+import "react-quill/dist/quill.snow.css";
 
 function Postpage() {
   const [value, setValue] = useState("");
