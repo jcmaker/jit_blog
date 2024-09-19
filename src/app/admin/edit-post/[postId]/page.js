@@ -21,16 +21,18 @@ function EditPostPage() {
   useEffect(() => {
     // Fetch the post details
     const fetchPost = async () => {
-      const docRef = doc(db, "posts", postId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const postData = docSnap.data();
-        setPost(postData);
-        setMainTitle(postData.mainTitle);
-        setContent(postData.content);
-        setThumbnail(postData.thumbnail);
-      } else {
-        console.log("Post not found!");
+      if (typeof window !== "undefined") {
+        const docRef = doc(db, "posts", postId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const postData = docSnap.data();
+          setPost(postData);
+          setMainTitle(postData.mainTitle);
+          setContent(postData.content);
+          setThumbnail(postData.thumbnail);
+        } else {
+          console.log("Post not found!");
+        }
       }
     };
 

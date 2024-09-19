@@ -15,28 +15,29 @@ function ArticlePage() {
   // get-content API에서 데이터를 가져오는 함수
   useEffect(() => {
     const fetchPost = async () => {
-      try {
-        const response = await axios.get("/api/get-content");
-        console.log("All posts:", response.data);
-        const foundPost = response.data.find((post) => post.id === articleId);
-        console.log("Found post:", foundPost);
-        if (foundPost) {
-          setPost(foundPost);
-        } else {
-          console.log("No such post!");
+      if (typeof window !== "undefined") {
+        try {
+          const response = await axios.get("/api/get-content");
+          console.log("All posts:", response.data);
+          const foundPost = response.data.find((post) => post.id === articleId);
+          console.log("Found post:", foundPost);
+          if (foundPost) {
+            setPost(foundPost);
+          } else {
+            console.log("No such post!");
+          }
+          setLoading(false); // Stop loading after fetching
+        } catch (error) {
+          console.error("Error fetching post:", error);
+          setLoading(false); // Stop loading even if there's an error
         }
-        setLoading(false); // Stop loading after fetching
-      } catch (error) {
-        console.error("Error fetching post:", error);
-        setLoading(false); // Stop loading even if there's an error
       }
     };
 
     if (articleId) {
       fetchPost();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [articleId]);
 
   return (
     <main className="flex flex-1 min-h-screen flex-col items-center p-1 pt-8">

@@ -23,11 +23,13 @@ function Adminpage() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await axios.get("/api/get-content");
-        setPosts(response.data);
-      } catch (error) {
-        console.error("Error fetching content:", error);
+      if (typeof window !== "undefined") {
+        try {
+          const response = await axios.get("/api/get-content");
+          setPosts(response.data);
+        } catch (error) {
+          console.error("Error fetching content:", error);
+        }
       }
     };
     fetchPosts();

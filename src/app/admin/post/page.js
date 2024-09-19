@@ -32,7 +32,9 @@ function Postpage() {
   const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
-    fetchTags();
+    if (typeof window !== "undefined") {
+      fetchTags();
+    }
   }, []);
 
   // Firestore에서 태그 목록 불러오기

@@ -18,7 +18,9 @@ function TagSearch() {
   const [tags, setTags] = useState([]); // Firestore에서 불러온 태그 목록
 
   useEffect(() => {
-    fetchTags();
+    if (typeof window !== "undefined") {
+      fetchTags();
+    }
   }, []);
 
   // Firestore에서 태그 목록 가져오기

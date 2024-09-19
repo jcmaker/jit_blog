@@ -20,7 +20,9 @@ function TagsPage() {
 
   // 페이지 로드 시 태그 목록 가져오기
   useEffect(() => {
-    fetchTags();
+    if (typeof window !== "undefined") {
+      fetchTags();
+    }
   }, []);
 
   // Firestore에서 태그 목록 가져오기

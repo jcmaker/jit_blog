@@ -14,14 +14,16 @@ function PostsByTagPage() {
 
   useEffect(() => {
     const fetchPostsByTag = async () => {
-      try {
-        const response = await axios.get("/api/get-content");
-        const filteredPosts = response.data.filter(
-          (post) => Array.isArray(post.tags) && post.tags.includes(tagId)
-        );
-        setPosts(filteredPosts);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
+      if (typeof window !== "undefined") {
+        try {
+          const response = await axios.get("/api/get-content");
+          const filteredPosts = response.data.filter(
+            (post) => Array.isArray(post.tags) && post.tags.includes(tagId)
+          );
+          setPosts(filteredPosts);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
       }
     };
 
