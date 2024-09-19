@@ -1,11 +1,11 @@
 "use client";
+import { auth } from "fbManager";
 import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../../../fbManager"; // firebase.js에서 초기화된 auth 모듈을 가져옵니다.
 
 // Google 로그인 메서드
 export const signInWithGoogle = async () => {

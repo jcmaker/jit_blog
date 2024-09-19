@@ -31,15 +31,21 @@ function Postpage() {
   const [totalBytes, setTotalBytes] = useState(0); // 이미지 크기를 저장할 상태
   const [charCount, setCharCount] = useState(0); // 글자 수 저장 상태
   const quillRef = useRef(null); // ReactQuill 인스턴스를 참조하기 위한 ref
+  const router = useRouter(); // Initialize useRouter
   const auth = getAuth();
   const user = auth.currentUser;
-  const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       fetchTags();
     }
   }, []);
+
+  useEffect(() => {
+    if (!user?.uid || user?.uid !== process.env.NEXT_PUBLIC_ADMIN_UID) {
+      router.push("/"); // Make sure this is only client-side
+    }
+  }, [router, user]);
 
   // Firestore에서 태그 목록 불러오기
   const fetchTags = async () => {
@@ -179,7 +185,7 @@ function Postpage() {
     setCheckPrivate(!checkPrivate);
   };
 
-  return (
+  return user ? (
     <main className="flex flex-1 min-h-screen  flex-col items-center p-4 pt-8">
       <div className="shine -z-10 absolute inset-0" role="presentation"></div>
       <div className="mb-16">
@@ -260,6 +266,8 @@ function Postpage() {
         <Button onClick={saveContent}>Save Content</Button>
       </form>
     </main>
+  ) : (
+    <p>Loading...</p>
   );
 }
 
