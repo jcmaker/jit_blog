@@ -2,9 +2,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { db, storage } from "fbManager";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Firebase Storage에서 제공하는 함수들
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore"; // Firestore methods
 import { getAuth } from "firebase/auth";
-import axios from "axios";
 import { AdminNav } from "@/components/adminNav";
 import Image from "next/image";
 import ReactQuill from "react-quill";
@@ -64,7 +68,7 @@ function Postpage() {
     }
   };
 
-  // API를 통해 데이터 전송
+  // Firebase Firestore에 데이터 저장
   const saveContent = async (e) => {
     e.preventDefault(); // 폼 제출 시 페이지 새로고침 방지
 
@@ -81,22 +85,34 @@ function Postpage() {
     }
 
     setErrorMessage(""); // 모든 조건이 충족되면 에러 메시지를 지움
+
+    // 1. Compress content using LZString
     const compressedContent = LZString.compressToEncodedURIComponent(value);
+
+    // 2. Create a Blob for compressed content
+    const contentBlob = new Blob([compressedContent], {
+      type: "text/plain;charset=utf-8",
+    });
+
     if (user) {
       try {
-        // API 요청 보내기
-        const response = await axios.post("/api/save-content", {
+        // 3. Upload content to Firebase Storage
+        const storageRef = ref(storage, `content/${Date.now()}_content.txt`);
+        await uploadBytes(storageRef, contentBlob);
+        const contentURL = await getDownloadURL(storageRef); // URL for content file in storage
+
+        // 4. Save post metadata and content URL to Firestore
+        await addDoc(collection(db, "posts"), {
           mainTitle,
           thumbnail: thumbnailURL,
-          content: compressedContent, // content 데이터 전송
+          contentURL, // Store URL to compressed content
           tags: selectedTags,
           checkPrivate,
+          createdAt: serverTimestamp(), // Timestamp for creation date
         });
 
-        if (response.status === 200) {
-          alert("Content saved successfully!");
-          router.push("/"); // Use router.push for client-side navigation
-        }
+        alert("Content saved successfully!");
+        router.push("/"); // Navigate to home after saving
       } catch (error) {
         console.error("Error saving content:", error);
       }

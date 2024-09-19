@@ -15,6 +15,16 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2Icon } from "lucide-react";
+import { db } from "fbManager"; // Your Firebase setup
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import LZString from "lz-string"; // For decompressing content
 
 function Adminpage() {
   const { user } = useAuth();
@@ -23,23 +33,45 @@ function Adminpage() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (typeof window !== "undefined") {
-        try {
-          const response = await axios.get("/api/get-content");
-          setPosts(response.data);
-        } catch (error) {
-          console.error("Error fetching content:", error);
-        }
+      try {
+        const postsCollection = collection(db, "posts");
+        const q = query(postsCollection, orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        const fetchedPosts = querySnapshot.docs.map((doc) => {
+          let postData = doc.data();
+
+          // Decompress content if it exists
+          if (postData.content) {
+            postData.content = LZString.decompressFromEncodedURIComponent(
+              postData.content
+            );
+          }
+
+          return {
+            id: doc.id,
+            ...postData,
+          };
+        });
+
+        setPosts(fetchedPosts);
+      } catch (error) {
+        console.error("Error fetching content:", error);
       }
     };
+
     fetchPosts();
   }, []);
 
-  // Delete post handler
+  // Delete post handler (delete directly from Firestore)
   const handleDelete = async (postId) => {
     if (confirm("Are you sure you want to delete this post?")) {
       try {
-        const response = await axios.delete(`/api/delete-post/${postId}`);
+        // Delete the post document from Firestore
+        const postRef = doc(db, "posts", postId);
+        await deleteDoc(postRef);
+
+        // Update the posts state to remove the deleted post
         setPosts(posts.filter((post) => post.id !== postId));
         alert("Post deleted successfully!");
       } catch (error) {

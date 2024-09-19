@@ -1,7 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
+import { db } from "fbManager"; // Firebase setup
+import { doc, getDoc } from "firebase/firestore"; // Firestore methods
+import LZString from "lz-string"; // For decompressing content
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -12,25 +14,44 @@ function ArticlePage() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true); // Loading state
 
-  // get-content API에서 데이터를 가져오는 함수
   useEffect(() => {
     const fetchPost = async () => {
-      if (typeof window !== "undefined") {
-        try {
-          const response = await axios.get("/api/get-content");
-          console.log("All posts:", response.data);
-          const foundPost = response.data.find((post) => post.id === articleId);
-          console.log("Found post:", foundPost);
-          if (foundPost) {
-            setPost(foundPost);
-          } else {
-            console.log("No such post!");
+      try {
+        const postDoc = doc(db, "posts", articleId); // Get reference to the specific post
+        const docSnapshot = await getDoc(postDoc);
+
+        if (docSnapshot.exists()) {
+          let postData = docSnapshot.data();
+
+          // If there's a contentURL, fetch and decompress content from there
+          if (postData.contentURL) {
+            try {
+              const response = await fetch(postData.contentURL); // Use fetch to get the content as a text file
+              const textContent = await response.text(); // Read the response as plain text
+
+              // Decompress the content
+              postData.content =
+                LZString.decompressFromEncodedURIComponent(textContent);
+
+              if (!postData.content) {
+                console.error("Decompression failed or content is empty.");
+                postData.content = "Error: Content could not be decompressed.";
+              }
+            } catch (error) {
+              console.error("Error fetching and decompressing content:", error);
+              postData.content = "Error fetching content";
+            }
           }
-          setLoading(false); // Stop loading after fetching
-        } catch (error) {
-          console.error("Error fetching post:", error);
-          setLoading(false); // Stop loading even if there's an error
+
+          setPost(postData); // Set the post data in state
+          console.log("Found post:", postData);
+        } else {
+          console.log("No such post!");
         }
+        setLoading(false); // Stop loading after fetching
+      } catch (error) {
+        console.error("Error fetching post:", error);
+        setLoading(false); // Stop loading even if there's an error
       }
     };
 

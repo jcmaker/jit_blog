@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { db } from "fbManager"; // Firebase setup
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { MainNav } from "@/components/mainNav";
 import TagSearch from "@/components/tagSearch";
 import PostCard from "@/components/PostCard";
@@ -14,25 +15,28 @@ function PostsByTagPage() {
 
   useEffect(() => {
     const fetchPostsByTag = async () => {
-      if (typeof window !== "undefined") {
+      if (tagId) {
         try {
-          const response = await axios.get("/api/get-content");
-          const filteredPosts = response.data.filter(
-            (post) => Array.isArray(post.tags) && post.tags.includes(tagId)
+          // Firestore query to get posts containing the specific tag
+          const q = query(
+            collection(db, "posts"),
+            where("tags", "array-contains", tagId)
           );
-          setPosts(filteredPosts);
+          const querySnapshot = await getDocs(q);
+          const filteredPosts = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          setPosts(filteredPosts); // Set posts in state
         } catch (error) {
           console.error("Error fetching posts:", error);
         }
       }
     };
 
-    if (tagId) {
-      fetchPostsByTag();
-    }
+    fetchPostsByTag();
   }, [tagId]);
-
-  console.log(tagId);
 
   return (
     <main className="flex flex-1 min-h-screen flex-col items-center p-4 pt-8">
