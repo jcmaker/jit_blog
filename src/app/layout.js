@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import SideNav from "@/components/sideNav";
 import { AuthProvider } from "@/context/authProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,10 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             <SideNav />
-            <main className="flex-1 md:ml-10">{children}</main>
+            <main className="flex-1 md:ml-10">
+              {children}
+              <Analytics />
+            </main>
           </ThemeProvider>
         </body>
       </AuthProvider>
