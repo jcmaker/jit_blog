@@ -36,6 +36,15 @@ function SideNav() {
             width={30} // 원하는 너비
             height={30} // 원하는 높이
             style={{ width: "auto", height: "auto" }} // 비율 유지
+            className="hidden dark:block"
+          />
+          <Image
+            src="/jit_header_light.png"
+            alt="Image"
+            width={30} // 원하는 너비
+            height={30} // 원하는 높이
+            style={{ width: "auto", height: "auto" }} // 비율 유지
+            className="dark:hidden"
           />
         </Link>
       </div>

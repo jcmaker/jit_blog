@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChromeIcon, FacebookIcon, GithubIcon } from "lucide-react";
 import toast from "react-hot-toast";
-// import { useAuth } from "@/context/authProvider";
+import { useAuth } from "@/context/authProvider";
 // import { useEffect, useState } from "react";
 
 function LoginPage() {
@@ -22,7 +22,8 @@ function LoginPage() {
       toast.success("Welcome!");
       router.push("/"); // 로그인 성공 시 메인 페이지로 리디렉트
     } catch (error) {
-      toast.error("This is an error!");
+      toast.error("This is an error!", error);
+      router.push("/");
     }
   };
 
@@ -68,7 +69,14 @@ function LoginPage() {
           alt="Image"
           width={100}
           height={100}
-          className=" object-cover "
+          className=" object-cover hidden dark:block"
+        />
+        <Image
+          src="/jit_header_light.png"
+          alt="Image"
+          width={100}
+          height={100}
+          className=" object-cover dark:hidden"
         />
       </div>
     </div>
