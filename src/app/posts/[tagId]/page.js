@@ -30,7 +30,7 @@ function PostsByTagPage() {
 
           setPosts(filteredPosts); // Set posts in state
         } catch (error) {
-          console.error("Error fetching posts:", error);
+          toast.error("This is an error!", error);
         }
       }
     };

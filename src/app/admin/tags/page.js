@@ -35,7 +35,7 @@ function TagsPage() {
       }));
       setTags(tagsArray);
     } catch (error) {
-      console.error("Error fetching tags: ", error);
+      toast.error("This is an error!", error);
     }
   };
 
@@ -52,7 +52,7 @@ function TagsPage() {
       setNewTag(""); // 입력란 초기화
       fetchTags(); // 태그 목록 업데이트
     } catch (error) {
-      console.error("Error adding tag: ", error);
+      toast.error("This is an error!", error);
     }
   };
 
@@ -62,7 +62,7 @@ function TagsPage() {
       await deleteDoc(doc(db, "tags", id));
       fetchTags(); // 태그 목록 업데이트
     } catch (error) {
-      console.error("Error deleting tag: ", error);
+      toast.error("This is an error!", error);
     }
   };
 

@@ -8,34 +8,23 @@ import {
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChromeIcon, FacebookIcon, GithubIcon } from "lucide-react";
-import { useAuth } from "@/context/authProvider";
-import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+// import { useAuth } from "@/context/authProvider";
+// import { useEffect, useState } from "react";
 
 function LoginPage() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const router = useRouter(); // useRouter 훅 사용
-  const [loading, setLoading] = useState(true); // Loading state
-
-  useEffect(() => {
-    if (user) {
-      router.push("/"); // Redirect only after confirming the user is logged in
-    } else {
-      setLoading(false); // Stop loading if no user is logged in
-    }
-  }, [user, router]);
 
   const handleLogin = async (loginMethod) => {
     try {
       await loginMethod();
+      toast.success("Welcome!");
       router.push("/"); // 로그인 성공 시 메인 페이지로 리디렉트
     } catch (error) {
-      console.error("로그인 오류:", error);
+      toast.error("This is an error!");
     }
   };
-
-  if (loading) {
-    return <p>Loading...</p>; // Show loading until we confirm the auth state
-  }
 
   return (
     <div className="w-full lg:grid md:h-screen lg:grid-cols-2">

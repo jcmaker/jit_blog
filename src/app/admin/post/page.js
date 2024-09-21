@@ -66,7 +66,7 @@ function Postpage() {
       }));
       setTags(tagsArray);
     } catch (error) {
-      console.error("Error fetching tags: ", error);
+      toast.error("This is an error!", error);
     }
   };
 
@@ -120,13 +120,13 @@ function Postpage() {
           views: 0,
         });
 
-        alert("Content saved successfully!");
+        toast.success("Successfully posted!");
         router.push("/");
       } catch (error) {
-        console.error("Error saving content:", error);
+        toast.error("This is an error!", error);
       }
     } else {
-      console.error("User is not authenticated");
+      toast.error("User is not authenticated");
     }
   };
 

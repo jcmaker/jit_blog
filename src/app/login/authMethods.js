@@ -15,7 +15,7 @@ export const signInWithGoogle = async () => {
     router.push("/"); // 로그인 성공 시 홈 페이지로 이동
     return result.user;
   } catch (error) {
-    console.error("Google 로그인 오류:", error);
+    toast.error("This is an error in Google Login!", error);
   }
 };
 
@@ -26,7 +26,7 @@ export const signInWithFacebook = async () => {
     const result = await signInWithPopup(auth, provider);
     return result.user;
   } catch (error) {
-    console.error("Facebook 로그인 오류:", error);
+    toast.error("This is an error in Facebook Login!", error);
   }
 };
 
@@ -37,6 +37,6 @@ export const signInWithGitHub = async () => {
     const result = await signInWithPopup(auth, provider);
     return result.user;
   } catch (error) {
-    console.error("GitHub 로그인 오류:", error);
+    toast.error("This is an error in Github Login!", error);
   }
 };

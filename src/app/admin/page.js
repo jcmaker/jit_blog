@@ -54,7 +54,7 @@ function Adminpage() {
 
         setPosts(fetchedPosts);
       } catch (error) {
-        console.error("Error fetching content:", error);
+        toast.error("fetching error", error);
       }
     };
 
@@ -71,10 +71,9 @@ function Adminpage() {
 
         // Update the posts state to remove the deleted post
         setPosts(posts.filter((post) => post.id !== postId));
-        alert("Post deleted successfully!");
+        toast.success("Successfully posted!");
       } catch (error) {
-        console.error("Error deleting post:", error);
-        alert("Failed to delete post.");
+        toast.error("delete error", error);
       }
     }
   };

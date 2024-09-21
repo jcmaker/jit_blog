@@ -31,7 +31,7 @@ export default function Home() {
         setPosts(postsArray);
         setIsLoadingInitial(false);
       } catch (error) {
-        console.error("Error fetching content from Firebase:", error);
+        toast.error("This is an error from firebase!", error);
         setIsLoadingInitial(false);
       }
     };

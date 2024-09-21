@@ -33,7 +33,7 @@ function TagSearch() {
       }));
       setTags(tagsArray);
     } catch (error) {
-      console.error("Error fetching tags: ", error);
+      toast.error("This is an error!", error);
     }
   };
 

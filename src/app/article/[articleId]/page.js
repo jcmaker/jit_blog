@@ -34,11 +34,11 @@ function ArticlePage() {
                 LZString.decompressFromEncodedURIComponent(textContent);
 
               if (!postData.content) {
-                console.error("Decompression failed or content is empty.");
+                toast.error("content is empty", error);
                 postData.content = "Error: Content could not be decompressed.";
               }
             } catch (error) {
-              console.error("Error fetching and decompressing content:", error);
+              toast.error("decompressing error", error);
               postData.content = "Error fetching content";
             }
           }
@@ -47,13 +47,13 @@ function ArticlePage() {
           // await updateDoc(postDoc, {
           //   views: increment(1), // Increment the views count by 1
           // });
-          console.log("Found post:", postData);
+          // console.log("Found post:", postData);
         } else {
-          console.log("No such post!");
+          toast.error("no post", error);
         }
         setLoading(false); // Stop loading after fetching
       } catch (error) {
-        console.error("Error fetching post:", error);
+        toast.error("fetching error", error);
         setLoading(false); // Stop loading even if there's an error
       }
     };

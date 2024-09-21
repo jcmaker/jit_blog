@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import SideNav from "@/components/sideNav";
 import { AuthProvider } from "@/context/authProvider";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
           >
             <SideNav />
             <main className="flex-1 md:ml-10">
+              <Toaster />
               {children}
               <Analytics />
             </main>
