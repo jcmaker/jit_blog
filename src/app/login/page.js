@@ -9,14 +9,20 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChromeIcon, FacebookIcon, GithubIcon } from "lucide-react";
 import { useAuth } from "@/context/authProvider";
+import { useEffect, useState } from "react";
 
 function LoginPage() {
   const { user } = useAuth();
   const router = useRouter(); // useRouter 훅 사용
+  const [loading, setLoading] = useState(true); // Loading state
 
-  if (user) {
-    router.push("/");
-  }
+  useEffect(() => {
+    if (user) {
+      router.push("/"); // Redirect only after confirming the user is logged in
+    } else {
+      setLoading(false); // Stop loading if no user is logged in
+    }
+  }, [user, router]);
 
   const handleLogin = async (loginMethod) => {
     try {
@@ -26,6 +32,10 @@ function LoginPage() {
       console.error("로그인 오류:", error);
     }
   };
+
+  if (loading) {
+    return <p>Loading...</p>; // Show loading until we confirm the auth state
+  }
 
   return (
     <div className="w-full lg:grid md:h-screen lg:grid-cols-2">

@@ -46,7 +46,7 @@ function PostsByTagPage() {
         <TagSearch />
       </div>
       {/* <h1 className="text-3xl font-bold mb-8">Posts tagged with #{tagId}</h1> */}
-      <div className="text-card-foreground rounded-lg shadow-lg mb-8 w-full max-w-3xl">
+      <div className="text-card-foreground rounded-lg mb-8 w-full max-w-3xl p-1">
         <div className="flex items-center space-x-2">
           <TagIcon className="w-5 h-5 text-primary" />
           <h1 className="text-lg">

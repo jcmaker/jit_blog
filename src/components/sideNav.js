@@ -27,7 +27,7 @@ function SideNav() {
       <div className="flex shrink-0 items-center justify-center">
         <Link
           href="/"
-          className="flex items-center justify-center gap-2 md:pt-5"
+          className="flex items-center justify-center gap-2 p-2 md:pt-5 "
           prefetch={true}
         >
           <Image
@@ -89,7 +89,7 @@ function SideNav() {
           <UserCircle2Icon className="text-gray-500 font-extralight" />
         </AvatarFallback>
       </Avatar>
-      <div className="flex justify-center items-center md:hidden">
+      <div className="flex justify-center items-center md:hidden p-2">
         <Sheet>
           <SheetTrigger>
             <AlignJustifyIcon className="h-10 text-slate-400" />
