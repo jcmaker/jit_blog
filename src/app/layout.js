@@ -16,25 +16,25 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <AuthProvider>
-        <body
-          className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen `}
+      <body
+        className={`${inter.className} flex flex-col md:flex-row md:justify-stretch dark:bg-[#10151D] h-screen w-screen `}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <AuthProvider>
             <SideNav />
             <main className="flex-1 md:ml-10">
               <Toaster />
               {children}
               <Analytics />
             </main>
-          </ThemeProvider>
-        </body>
-      </AuthProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
