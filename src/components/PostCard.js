@@ -33,7 +33,7 @@ const PostCard = ({ post }) => {
             <h1 className="md:text-2xl text-xl font-semibold dark:text-slate-300 mb-2">
               {post.mainTitle}
             </h1>
-            <div className="flex w-full">
+            <div className="flex w-full items-center">
               <p className="flex-2 flex justify-start items-center mr-4 text-xs dark:text-slate-400">
                 Justin Cho
               </p>
@@ -49,6 +49,9 @@ const PostCard = ({ post }) => {
                     )
                   : "Unknown date"}
               </p>
+              {/* <span className="text-xs text-slate-500 flex items-center ml-4">
+                <EyeIcon className="mr-1" /> {post.views}
+              </span> */}
             </div>
           </div>
           <div className="hidden md:flex md:flex-wrap md:flex-1 gap-2 items-center justify-end mt-1">

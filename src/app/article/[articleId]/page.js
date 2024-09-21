@@ -44,6 +44,9 @@ function ArticlePage() {
           }
 
           setPost(postData); // Set the post data in state
+          // await updateDoc(postDoc, {
+          //   views: increment(1), // Increment the views count by 1
+          // });
           console.log("Found post:", postData);
         } else {
           console.log("No such post!");
@@ -58,7 +61,8 @@ function ArticlePage() {
     if (articleId) {
       fetchPost();
     }
-  }, [articleId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="flex flex-1 min-h-screen flex-col items-center p-1 pt-8">
@@ -95,11 +99,11 @@ function ArticlePage() {
                 objectFit="cover"
                 priority={true}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="rounded-xl"
+                className="rounded-xl  slide-bottom"
               />
             </div>
 
-            <div className="p-4 md:p-8">
+            <div className="p-4 md:p-8 slide-bottom">
               <h1 className="text-2xl md:text-4xl font-bold dark:text-white mb-2">
                 {post.mainTitle}
               </h1>
@@ -117,6 +121,9 @@ function ArticlePage() {
                     : "Unknown date"}
                 </p>
                 <p className="text-sm dark:text-gray-400">by Justin Cho</p>
+                {/* <span className="text-sm dark:text-gray-400 flex items-center">
+                  <EyeIcon className="mr-1" /> {post.views}
+                </span> */}
               </div>
 
               <div className="prose">

@@ -90,8 +90,8 @@ function Postpage() {
       return;
     }
 
-    const editor = quillRef.current.getEditor();
-    if (editor.getText().trim().length === 0) {
+    const editor = quillRef.current?.getEditor();
+    if (editor?.getText().trim().length === 0) {
       setErrorMessage("Content is required");
       return;
     }
@@ -117,6 +117,7 @@ function Postpage() {
           tags: selectedTags,
           checkPrivate,
           createdAt: serverTimestamp(),
+          views: 0,
         });
 
         alert("Content saved successfully!");

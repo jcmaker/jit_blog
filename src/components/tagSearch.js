@@ -41,7 +41,7 @@ function TagSearch() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-none border-none md:w-14 h-14 rounded-xl md:border flex items-center justify-center">
+      <DropdownMenuTrigger className="bg-none border-none md:w-14 h-14 rounded-xl md:border flex items-center justify-end">
         <Filter className="text-slate-400" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
