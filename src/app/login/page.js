@@ -13,7 +13,7 @@ import { useAuth } from "@/context/authProvider";
 // import { useEffect, useState } from "react";
 
 function LoginPage() {
-  // const { user } = useAuth();
+  const { user } = useAuth();
   const router = useRouter(); // useRouter 훅 사용
 
   const handleLogin = async (loginMethod) => {
@@ -27,60 +27,66 @@ function LoginPage() {
     }
   };
 
-  return (
-    <div className="w-full lg:grid md:h-screen lg:grid-cols-2">
-      <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
-            <p className="text-balance text-muted-foreground">
-              Sign in to your account using one of the following options:
-            </p>
+  if (user) {
+    router.push("/");
+  }
+
+  if (!user) {
+    return (
+      <div className="w-full lg:grid md:h-screen lg:grid-cols-2">
+        <div className="flex items-center justify-center py-12">
+          <div className="mx-auto grid w-[350px] gap-6">
+            <div className="grid gap-2 text-center">
+              <h1 className="text-3xl font-bold">Login</h1>
+              <p className="text-balance text-muted-foreground">
+                Sign in to your account using one of the following options:
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => handleLogin(signInWithGoogle)}
+            >
+              <ChromeIcon className="mr-2 h-5 w-5" />
+              <span>Login with Google</span>
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => handleLogin(signInWithFacebook)}
+            >
+              <FacebookIcon className="mr-2 h-5 w-5" />
+              <span>Login with Facebook</span>
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full "
+              onClick={() => handleLogin(signInWithGitHub)}
+            >
+              <GithubIcon className="mr-2 h-5 w-5" />
+              <span>Login with Github</span>
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => handleLogin(signInWithGoogle)}
-          >
-            <ChromeIcon className="mr-2 h-5 w-5" />
-            <span>Login with Google</span>
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => handleLogin(signInWithFacebook)}
-          >
-            <FacebookIcon className="mr-2 h-5 w-5" />
-            <span>Login with Facebook</span>
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full "
-            onClick={() => handleLogin(signInWithGitHub)}
-          >
-            <GithubIcon className="mr-2 h-5 w-5" />
-            <span>Login with Github</span>
-          </Button>
+        </div>
+        <div className="hidden bg-muted h-full w-full lg:flex justify-center items-center">
+          <Image
+            src="/jit_header.png"
+            alt="Image"
+            width={100}
+            height={100}
+            className=" object-cover hidden dark:block"
+          />
+          <Image
+            src="/jit_header_light.png"
+            alt="Image"
+            width={100}
+            height={100}
+            className=" object-cover dark:hidden"
+          />
         </div>
       </div>
-      <div className="hidden bg-muted h-full w-full lg:flex justify-center items-center">
-        <Image
-          src="/jit_header.png"
-          alt="Image"
-          width={100}
-          height={100}
-          className=" object-cover hidden dark:block"
-        />
-        <Image
-          src="/jit_header_light.png"
-          alt="Image"
-          width={100}
-          height={100}
-          className=" object-cover dark:hidden"
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default LoginPage;
