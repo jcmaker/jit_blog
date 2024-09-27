@@ -11,8 +11,6 @@ import {
 import { getAuth } from "firebase/auth";
 import { AdminNav } from "@/components/adminNav";
 import Image from "next/image";
-// import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
