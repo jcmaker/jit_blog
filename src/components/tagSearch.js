@@ -50,7 +50,9 @@ function TagSearch() {
         {tags.map((tag) => (
           <DropdownMenuItem key={tag.id}>
             <Link href={`/posts/${tag.name}`}>
-              <Badge>#{tag.name}</Badge>
+              <Badge className="bg-[#18181C] dark:bg-primary">
+                #{tag.name}
+              </Badge>
             </Link>
           </DropdownMenuItem>
         ))}

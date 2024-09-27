@@ -22,7 +22,7 @@ function LoginPage() {
       toast.success("Welcome!");
       router.push("/"); // 로그인 성공 시 메인 페이지로 리디렉트
     } catch (error) {
-      toast.error("This is an error!", error);
+      toast.error("Login error!", error);
       router.push("/");
     }
   };
