@@ -28,7 +28,6 @@ function SideNav() {
         <Link
           href="/"
           className="flex items-center justify-center gap-2 p-2 md:pt-5 "
-          prefetch={true}
         >
           <Image
             src="/jit_header.png"
@@ -52,7 +51,6 @@ function SideNav() {
         <Link
           href="/"
           className="flex flex-col justify-center items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-          prefetch={true}
         >
           <HomeIcon className="h-5 w-5" />
           Home
@@ -103,7 +101,6 @@ function SideNav() {
             <Link
               href="/"
               className="flex flex-col justify-center items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-              prefetch={true}
             >
               <HomeIcon className="h-5 w-5" />
               Home
