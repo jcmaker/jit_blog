@@ -14,7 +14,6 @@ import { useAuth } from "@/context/authProvider";
 import { auth } from "fbManager";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 function SideNav() {
   const { user } = useAuth();
@@ -59,31 +58,21 @@ function SideNav() {
           Home
         </Link>
         {user ? (
-          <Link
-            href="#"
+          <span
             className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-            prefetch={true}
             onClick={() => {
               if (typeof window !== "undefined") {
                 auth.signOut();
-                window.location.reload();
               }
             }}
           >
             <DoorOpenIcon className=" h-5 w-5" />
             Logout
-          </Link>
+          </span>
         ) : (
           <Link
             href="/login"
             className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-            // prefetch={false}
-            // href="#"
-            // className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   toast.error("Justin blocked for some reason...");
-            // }}
           >
             <DoorOpenIcon className=" h-5 w-5" />
             Login
@@ -120,10 +109,8 @@ function SideNav() {
               Home
             </Link>
             {user ? (
-              <Link
-                href="#"
+              <span
                 className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-                prefetch={true}
                 onClick={() => {
                   auth.signOut().then(() => {
                     if (typeof window !== "undefined") {
@@ -134,17 +121,12 @@ function SideNav() {
               >
                 <DoorOpenIcon className=" h-5 w-5" />
                 Logout
-              </Link>
+              </span>
             ) : (
               <Link
                 href="/login"
-                // href="#"
                 className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   toast.error("Justin blocked for some reason...");
-                // }}
-                prefetch={false}
+                s
               >
                 <DoorOpenIcon className=" h-5 w-5" />
                 Login
