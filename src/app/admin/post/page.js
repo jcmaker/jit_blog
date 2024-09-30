@@ -23,6 +23,7 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 // Import styles for ReactQuill after dynamic import
 import "react-quill/dist/quill.snow.css";
+import toast from "react-hot-toast";
 
 function Postpage() {
   const [value, setValue] = useState("");

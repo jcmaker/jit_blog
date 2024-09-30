@@ -14,7 +14,6 @@ import { useAuth } from "@/context/authProvider";
 import { auth } from "fbManager";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 function SideNav() {
   const { user } = useAuth();
@@ -74,20 +73,19 @@ function SideNav() {
             Logout
           </Link>
         ) : (
-          <Link
-            href="/login"
-            className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
+          <span
+            // href="/login"
+            className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer"
             prefetch={false}
             // href="#"
             // className="flex flex-col items-center rounded-md px-3 py-2 text-sm dark:text-gray-300 text-gray-600 font-extralight transition-colors hover:bg-accent hover:text-accent-foreground"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   toast.error("Justin blocked for some reason...");
-            // }}
+            onClick={() => {
+              router.push("/login");
+            }}
           >
             <DoorOpenIcon className=" h-5 w-5" />
             Login
-          </Link>
+          </span>
         )}
         <ThemeToggle />
       </nav>

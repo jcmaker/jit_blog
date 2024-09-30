@@ -23,6 +23,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import LZString from "lz-string"; // For decompressing content
+import toast from "react-hot-toast";
 
 function Adminpage() {
   const { user } = useAuth();
