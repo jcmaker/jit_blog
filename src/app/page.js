@@ -1,101 +1,220 @@
+"use client";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "./auth/AuthContext";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+import { ChevronRight, Lock } from "lucide-react";
 
-export default function Home() {
+export default function Page() {
+  const { session, loading } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [posts, setPosts] = useState([]); // All posts
+  const [recentPost, setRecentPost] = useState(null); // Most recent post
+  const [tags, setTags] = useState({
+    study: [],
+    monthly: [],
+  });
+  const [fetchError, setFetchError] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_ADMIN_ID == session?.user.id) {
+      setIsAdmin(true);
+    }
+  }, [session]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("/api/posts");
+        const result = await response.json();
+
+        if (!Array.isArray(result.posts)) {
+          throw new Error("Invalid posts format");
+        }
+
+        const allPosts = result.posts.map((post) => ({
+          ...post,
+          created_at: new Date(post.created_at).toLocaleDateString("en-EN", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+        }));
+
+        const sortedPosts = result.posts
+          .map((post) => ({
+            ...post,
+            created_at: new Date(post.created_at).toLocaleDateString("en-EN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }),
+          }))
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        setPosts(allPosts);
+        setRecentPost(sortedPosts[0]); // 가장 최근 포스트 설정
+
+        const studyPosts = allPosts.filter((post) =>
+          post.tag?.includes("study")
+        );
+        const monthlyPosts = allPosts.filter((post) =>
+          post.tag?.includes("monthly")
+        );
+
+        setTags({
+          study: studyPosts,
+          monthly: monthlyPosts,
+        });
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setFetchError(true);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="animate-pulse text-lg font-bold">Loading...</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="p-4 space-y-8 flex flex-col items-center w-full">
+      {/* Header */}
+      <h1 className="text-2xl font-bold mb-4 flex w-full justify-start">
+        HomePage
+      </h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {recentPost && (
+        <div className="p-2 w-full border rounded-md shadow-md mb-6  max-w-[800px]">
+          <Link
+            href={`post/${recentPost.postId}`}
+            className="flex flex-col bg-[#18181B] dark:bg-card rounded-md p-6"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <div className="flex justify-between items-center ">
+              <div>
+                <h1 className="font-bold text-2xl sm:text-2xl text-slate-50">
+                  Recent Post
+                </h1>
+                <span className="text-slate-200">
+                  Latest story of Justin&#39;s
+                </span>
+              </div>
+              <ChevronRight className="text-slate-200" />
+            </div>
+
+            <h2 className="font-bold text-lg sm:text-xl mb-2 mt-6 text-slate-100">
+              {recentPost.title}
+            </h2>
+            <p className="dark:text-gray-500 text-slate-300 text-sm mb-4">
+              {recentPost.created_at}
+            </p>
+
+            {/* HTML 미리보기 표시 */}
+            <div
+              className="dark:text-gray-700 text-slate-500 text-sm"
+              dangerouslySetInnerHTML={{
+                __html: recentPost.content?.slice(0, 200),
+              }}
+            ></div>
+            <span className="dark:text-gray-700 text-slate-500 text-sm">
+              ...
+            </span>
+            <div>
+              <Button className="bg-[#F7FAFC] text-slate-900 mt-2">
+                Read More
+              </Button>
+            </div>
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      )}
+
+      {/* Tabs for All Screens */}
+      <Tabs defaultValue="all" className="w-full flex flex-col items-center">
+        <TabsList className="grid w-full grid-cols-3 mb-4 max-w-[400px]">
+          <TabsTrigger value="all">All</TabsTrigger>
+          <TabsTrigger value="study">Study</TabsTrigger>
+          <TabsTrigger value="monthly">Monthly</TabsTrigger>
+        </TabsList>
+
+        {/* All Posts */}
+        <TabsContent value="all" className="w-full flex flex-col items-center">
+          <PostSection posts={posts} />
+        </TabsContent>
+
+        {/* Study Posts */}
+        <TabsContent
+          value="study"
+          className="w-full flex flex-col items-center"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <PostSection posts={tags.study} />
+        </TabsContent>
+
+        {/* Monthly Posts */}
+        <TabsContent
+          value="monthly"
+          className="w-full flex flex-col items-center"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <PostSection posts={tags.monthly} />
+        </TabsContent>
+      </Tabs>
+
+      {isAdmin && (
+        <Button
+          onClick={() => router.push("/admin")}
+          className="fixed mt-4 rounded-full bottom-4 right-4"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <Lock />
+        </Button>
+      )}
     </div>
   );
+}
+
+function PostSection({ posts }) {
+  return (
+    <div className="space-y-4 w-full flex flex-col items-center">
+      {posts.map((post) => (
+        <Link
+          href={`post/${post.postId}`}
+          key={post.id}
+          className="p-4 border rounded-md shadow-md flex flex-col w-full max-w-[800px] h-[400px]"
+        >
+          {post.thumbnail && (
+            <div className="relative h-[360px] w-full rounded-t mb-4 overflow-hidden">
+              <Image
+                src={post.thumbnail}
+                alt={post.title}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+          )}
+          <div className=" flex items-center">
+            <Image
+              src="/author.webp"
+              alt="author"
+              width="40"
+              height="40"
+              className="rounded-md"
+            />
+            <div className="flex flex-col items-start flex-2 ml-4">
+              <h3 className="font-semibold text-lg">{post.title}</h3>
+              <p className="text-gray-500 text-sm">{post.created_at}</p>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+  // 나중에 포스트 글 많아지면 글 추가 버튼 만들기
 }
