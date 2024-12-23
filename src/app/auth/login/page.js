@@ -132,6 +132,7 @@ function LoginPage() {
 
             <Button
               variant="outline"
+              disabled
               className="w-full"
               onClick={handleFacebookLogin}
             >
@@ -148,6 +149,7 @@ function LoginPage() {
             <Button
               variant="outline"
               className="w-full"
+              disabled
               onClick={handleKakaoLogin}
             >
               <Image
