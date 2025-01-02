@@ -84,7 +84,6 @@ export function AppSidebar() {
       </Link>
       <SidebarContent>
         <SidebarGroup className="group-data-[icon]:hidden">
-          {/* <SidebarGroupLabel>Menu</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

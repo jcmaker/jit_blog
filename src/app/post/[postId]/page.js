@@ -66,7 +66,7 @@ export default function PostDetail() {
       {/* 돌아가기 버튼 */}
       <button
         onClick={() => router.push("/")}
-        className="flex mt-6 px-2 items-center py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="flex mt-6 px-4 items-center py-2 text-slate-100 dark:text-slate-800 rounded-full hover:bg-blue-600 bg-card-foreground"
       >
         <ArrowLeft size={18} className="mr-2" /> Back to Home
       </button>

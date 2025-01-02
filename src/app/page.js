@@ -81,7 +81,7 @@ export default function Page() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen w-screen">
         <span className="animate-pulse text-lg font-bold">Loading...</span>
       </div>
     );
@@ -147,14 +147,17 @@ export default function Page() {
         </TabsList>
 
         {/* All Posts */}
-        <TabsContent value="all" className="w-full flex flex-col items-center">
+        <TabsContent
+          value="all"
+          className="w-full flex flex-col items-center mt-0"
+        >
           <PostSection posts={posts} />
         </TabsContent>
 
         {/* Study Posts */}
         <TabsContent
           value="study"
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center mt-0"
         >
           <PostSection posts={tags.study} />
         </TabsContent>
@@ -162,7 +165,7 @@ export default function Page() {
         {/* Monthly Posts */}
         <TabsContent
           value="monthly"
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center mt-0"
         >
           <PostSection posts={tags.monthly} />
         </TabsContent>
