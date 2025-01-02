@@ -190,19 +190,23 @@ function PostSection({ posts }) {
         <Link
           href={`post/${post.postId}`}
           key={post.id}
-          className="p-4 border rounded-md shadow-md flex flex-col w-full max-w-[800px] h-[400px]"
+          className="p-4 border rounded-md shadow-md flex flex-col w-full max-w-[800px]"
         >
           {post.thumbnail && (
-            <div className="relative h-[360px] w-full rounded-t mb-4 overflow-hidden">
-              <Image
-                src={post.thumbnail}
-                alt={post.title}
-                layout="fill"
-                objectFit="cover"
-              />
+            <div className="relative w-full overflow-hidden rounded-md">
+              <div className="relative h-0" style={{ paddingBottom: "56.25%" }}>
+                {/* 16:9 비율 유지 */}
+                <Image
+                  src={post.thumbnail}
+                  alt={post.title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="absolute inset-0 w-full h-full"
+                />
+              </div>
             </div>
           )}
-          <div className=" flex items-center">
+          <div className="flex items-center mt-4">
             <Image
               src="/author.webp"
               alt="author"
@@ -219,5 +223,6 @@ function PostSection({ posts }) {
       ))}
     </div>
   );
+
   // 나중에 포스트 글 많아지면 글 추가 버튼 만들기
 }

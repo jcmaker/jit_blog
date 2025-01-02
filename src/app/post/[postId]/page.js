@@ -76,14 +76,17 @@ export default function PostDetail() {
 
       {/* 썸네일 */}
       {post.thumbnail && (
-        <div className="relative w-full h-80">
-          <Image
-            src={post.thumbnail}
-            alt={post.title}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-          />
+        <div className="relative w-full">
+          <div className="relative h-0" style={{ paddingBottom: "56.25%" }}>
+            {/* 16:9 비율 유지 */}
+            <Image
+              src={post.thumbnail}
+              alt={post.title}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
         </div>
       )}
 
