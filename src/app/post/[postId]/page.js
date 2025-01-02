@@ -41,7 +41,7 @@ export default function PostDetail() {
           ...data,
           thumbnail: absoluteThumbnailUrl, // 썸네일 URL 업데이트
           content: decompressedContent,
-          created_at: new Date(data.created_at).toLocaleDateString("ko-KR", {
+          created_at: new Date(data.created_at).toLocaleDateString("en-EN", {
             year: "numeric",
             month: "long",
             day: "numeric",

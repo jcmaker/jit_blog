@@ -215,8 +215,8 @@ function PostSection({ posts }) {
               className="rounded-md"
             />
             <div className="flex flex-col items-start flex-2 ml-4">
-              <h3 className="font-semibold text-lg">{post.title}</h3>
-              <p className="text-gray-500 text-sm">{post.created_at}</p>
+              <h3 className="font-semibold text-md">{post.title}</h3>
+              <p className="text-gray-500 text-xs">{post.created_at}</p>
             </div>
           </div>
         </Link>
