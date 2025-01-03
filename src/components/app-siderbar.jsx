@@ -64,7 +64,7 @@ export function AppSidebar() {
     },
     {
       title: "Search",
-      url: "/",
+      url: "/search",
       icon: Search,
     },
     {

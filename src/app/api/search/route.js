@@ -1,23 +1,40 @@
-// pages/api/search.js
-import { supabase } from "../../../../supabaseClient";
+// src/app/api/search/route.js
 
-export default async function handler(req, res) {
-  const { query } = req.query;
+import { createClient } from "@supabase/supabase-js";
 
-  if (!query) {
-    return res.status(400).json({ error: "Query is required" });
-  }
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_KEY
+);
 
+export async function POST(req) {
   try {
+    const { query } = await req.json(); // 클라이언트에서 보낸 JSON 데이터 파싱
+
+    // Supabase에서 검색 실행
     const { data, error } = await supabase
       .from("posts")
-      .select("id, title, content, created_at, thumbnail")
-      .textSearch("title || content", query, { type: "websearch" });
+      .select("*")
+      .ilike("title", `%${query}%`);
 
-    if (error) throw error;
+    if (error) {
+      console.error("Error fetching posts:", error);
+      return new Response(JSON.stringify({ error: "Failed to fetch posts" }), {
+        status: 500,
+      });
+    }
 
-    res.status(200).json(data);
+    return new Response(JSON.stringify({ posts: data || [] }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("API Error:", err);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 }

@@ -45,19 +45,19 @@ export default function Page() {
           }),
         }));
 
-        const sortedPosts = result.posts
-          .map((post) => ({
-            ...post,
-            created_at: new Date(post.created_at).toLocaleDateString("en-EN", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }),
-          }))
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        // const sortedPosts = result.posts
+        //   .map((post) => ({
+        //     ...post,
+        //     created_at: new Date(post.created_at).toLocaleDateString("en-EN", {
+        //       year: "numeric",
+        //       month: "long",
+        //       day: "numeric",
+        //     }),
+        //   }))
+        //   .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
         setPosts(allPosts);
-        setRecentPost(sortedPosts[0]); // 가장 최근 포스트 설정
+        setRecentPost(allPosts[0]); // 가장 최근 포스트 설정
 
         const studyPosts = allPosts.filter((post) =>
           post.tag?.includes("study")
