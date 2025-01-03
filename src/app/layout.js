@@ -1,10 +1,11 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-siderbar";
 import { AuthProvider } from "./auth/AuthContext";
 import MobileHeader from "@/components/mobile-header";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,10 +38,9 @@ export default function RootLayout({ children }) {
           <AuthProvider>
             <SidebarProvider className="flex flex-col md:flex-row">
               <AppSidebar />
-              {/* <SidebarTrigger className="h-screen flex justify-center items-center" /> */}
-              {/* <SidebarTrigger /> */}
               <MobileHeader />
               {children}
+              <Analytics />
             </SidebarProvider>
           </AuthProvider>
         </ThemeProvider>
